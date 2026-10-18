@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* Identidade visual: proposta premium (sem marca definida pelo profissional).
+   Altere aqui e em src/config/site.ts -> brand. */
+:root {
+  --c-primary: #581c2b;
+  --c-primary-deep: #32111c;
+  --c-ink-deep: #1f0a11;
+  --c-accent: #c5a46d;
+  --c-accent-soft: #e0ccaa;
+  --c-cream: #f7f4ee;
+  --c-cream-2: #efe9df;
+  --c-text: #292321;
+  --c-muted: #6b605b;
+  --c-white: #ffffff;
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --color-primary: var(--c-primary);
+  --color-primary-deep: var(--c-primary-deep);
+  --color-ink-deep: var(--c-ink-deep);
+  --color-accent: var(--c-accent);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-cream: var(--c-cream);
+  --color-cream-2: var(--c-cream-2);
+  --color-ink: var(--c-text);
+  --color-muted: var(--c-muted);
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-manrope);
+  --font-script: var(--font-allura);
+}
+
+html {
+  background: var(--c-cream);
+  -webkit-text-size-adjust: 100%;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  background: var(--c-cream);
+  color: var(--c-text);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--c-accent);
+  color: var(--c-primary-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.font-display {
+  font-family: var(--font-playfair), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+}
+
+/* Calligraphic word: only on selected words */
+.script {
+  font-family: var(--font-allura), cursive;
+  color: var(--c-accent);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-size: 1.28em;
+  line-height: 0.6;
+  display: inline-block;
+  padding: 0 0.06em 0.12em 0.02em;
+  margin-right: -0.04em;
+  vertical-align: baseline;
+}
+
+.eyebrow {
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* Line-reveal mask */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.line-inner {
+  display: block;
+  will-change: transform;
+}
+
+/* Film grain overlay for dark sections */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Elegant placeholder for photos not yet supplied */
+.photo-placeholder {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgb(197 164 109 / 0.09) 14px 15px),
+    linear-gradient(160deg, var(--c-cream-2), #e6ddcf);
+}
+.photo-placeholder-dark {
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgb(197 164 109 / 0.08) 14px 15px),
+    linear-gradient(160deg, #3b1621, var(--c-primary-deep));
+}
+
+.pending-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 1px dashed currentColor;
+  padding: 0.18em 0.6em;
+  font-family: var(--font-manrope), sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 2px;
+  opacity: 0.85;
+}
+
+@keyframes scroll-cue {
+  0% { transform: translateY(-100%); }
+  60% { transform: translateY(100%); }
+  100% { transform: translateY(100%); }
+}
+.scroll-cue-line {
+  animation: scroll-cue 2.4s var(--ease-lux) infinite;
+}
+
+@keyframes halo-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
