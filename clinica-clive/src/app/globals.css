@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Paleta Clínica Clive: marfim, verde-eucalipto profundo e champanhe. */
+:root {
+  --background: #f8f4ee;
+  --foreground: #1c2a26;
+  --card: #fffdf9;
+  --card-foreground: #1c2a26;
+  --primary: #1f4a40;
+  --primary-foreground: #fbf8f2;
+  --accent: #c7a274;
+  --accent-foreground: #2b2117;
+  --muted: #efe8de;
+  --muted-foreground: #5e6b66;
+  --border: #e3d9cb;
+  --input: #d6cab9;
+  --ring: #1f4a40;
+  --destructive: #b3261e;
+  --deep: #12302a;
+  --radius: 1rem;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-deep: var(--deep);
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --radius-lg: var(--radius);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Textura suave de grão para fundos escuros */
+@utility grain {
+  background-image: radial-gradient(circle at 20% 10%, rgb(199 162 116 / 0.18), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgb(255 255 255 / 0.06), transparent 40%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
