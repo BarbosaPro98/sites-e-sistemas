@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -69,6 +70,30 @@ const etapas = [
     icon: HeartHandshake,
     title: "Acompanhamento contínuo",
     text: "Ajustamos o plano a cada retorno. Autocuidado é constância, como um bom treino.",
+  },
+];
+
+const resultados = [
+  {
+    src: "/resultados/lipo-sem-cortes.webp",
+    width: 1027,
+    height: 1164,
+    title: "Lipo sem cortes",
+    alt: "Antes e depois de lipo sem cortes: abdômen da paciente à esquerda antes e à direita depois, com contorno mais definido.",
+  },
+  {
+    src: "/resultados/abdomen-lateral.webp",
+    width: 625,
+    height: 904,
+    title: "Abdômen, vista lateral",
+    alt: "Antes e depois do abdômen em vista lateral: acima, antes; abaixo, depois, com redução de volume.",
+  },
+  {
+    src: "/resultados/abdomen-frente.webp",
+    width: 644,
+    height: 973,
+    title: "Abdômen, vista frontal",
+    alt: "Antes e depois do abdômen em vista frontal: acima, antes; abaixo, depois, com pele mais firme e cintura mais marcada.",
   },
 ];
 
@@ -256,50 +281,60 @@ export default function ClinicaPage() {
           </div>
         </section>
 
-        {/* PROVA SOCIAL E COMUNIDADE */}
-        <section className="px-3 pb-20 sm:px-5 md:pb-28" aria-labelledby="comunidade-title">
-          <div className="mx-auto grid max-w-6xl gap-10 overflow-hidden rounded-[2.5rem] bg-muted p-8 md:grid-cols-2 md:items-center md:p-14">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">Comunidade Clive</p>
-              <h2 id="comunidade-title" className="mt-3 font-display text-4xl leading-tight text-balance text-primary sm:text-5xl">
-                Veja de perto quem cuida de você.
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-                No nosso Instagram você acompanha resultados reais de pacientes, os bastidores da clínica e os
-                especialistas que conduzem cada protocolo. Siga e faça parte de quem escolheu se cuidar com
-                constância.
-              </p>
-              <Button asChild size="lg" className="mt-8 text-base">
-                <a href={site.instagramUrl} target="_blank" rel="noopener noreferrer">
-                  <InstagramIcon className="size-5" /> Seguir {site.instagramHandle}
-                  <ArrowUpRight aria-hidden="true" />
+        {/* PROVA SOCIAL: RESULTADOS REAIS */}
+        <section className="px-3 pb-20 sm:px-5 md:pb-28" aria-labelledby="resultados-title">
+          <div className="mx-auto max-w-6xl rounded-[2.5rem] bg-muted p-6 sm:p-10 md:p-14">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-accent">Resultados reais</p>
+                <h2 id="resultados-title" className="mt-3 font-display text-4xl leading-tight text-balance text-primary sm:text-5xl">
+                  Veja de perto o que o cuidado certo faz.
+                </h2>
+                <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+                  Antes e depois de pacientes da {site.name}. Cada protocolo é indicado após avaliação, e os resultados
+                  variam de pessoa para pessoa.
+                </p>
+              </div>
+              <a
+                href={site.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary hover:underline"
+              >
+                <InstagramIcon className="size-5" /> Mais resultados em {site.instagramHandle}
+                <ArrowUpRight className="size-4" aria-hidden="true" />
+              </a>
+            </div>
+
+            <ul className="-mx-6 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:px-0 md:grid md:grid-cols-[1.25fr_1fr_1fr] md:items-start md:overflow-visible md:pb-0">
+              {resultados.map((r) => (
+                <li key={r.src} className="w-[80%] shrink-0 snap-center sm:w-[55%] md:w-auto">
+                  <figure className="overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-sm">
+                    <Image
+                      src={r.src}
+                      alt={r.alt}
+                      width={r.width}
+                      height={r.height}
+                      sizes="(min-width: 768px) 33vw, 80vw"
+                      className="h-auto w-full"
+                    />
+                    <figcaption className="px-5 py-4">
+                      <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-accent">Antes e depois</span>
+                      <span className="mt-1 block font-semibold text-foreground">{r.title}</span>
+                    </figcaption>
+                  </figure>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+              <Button asChild size="lg" className="text-base">
+                <a href={contactUrl()} target="_blank" rel="noopener noreferrer">
+                  <WhatsappIcon className="size-5" /> Agendar minha avaliação
                 </a>
               </Button>
+              <p className="text-sm text-muted-foreground">Converse com a equipe e descubra o protocolo indicado para você.</p>
             </div>
-            <a
-              href={site.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group grid grid-cols-3 gap-2.5"
-              aria-label="Abrir o Instagram da Clínica Clive"
-            >
-              {[
-                ["Resultados", "bg-primary text-primary-foreground"],
-                ["Bastidores", "bg-card text-primary"],
-                ["Especialistas", "bg-accent text-accent-foreground"],
-                ["Dicas", "bg-card text-primary"],
-                ["Rotina", "bg-deep text-primary-foreground"],
-                ["Bem-estar", "bg-card text-primary"],
-              ].map(([label, cls], i) => (
-                <span
-                  key={label}
-                  className={`flex aspect-square flex-col justify-end rounded-2xl p-3 text-xs font-semibold shadow-sm transition-transform duration-300 group-hover:scale-[1.02] ${cls} ${i % 2 ? "translate-y-4" : ""}`}
-                >
-                  <InstagramIcon className="mb-auto size-4 opacity-60" />
-                  {label}
-                </span>
-              ))}
-            </a>
           </div>
         </section>
 

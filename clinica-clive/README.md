@@ -41,7 +41,7 @@ Hospedagens serverless (como a Vercel) não guardam arquivos, então use um banc
 
 ## Pendências antes do evento
 
-- Número do WhatsApp da clínica (`NEXT_PUBLIC_CLINIC_WHATSAPP`). Sem ele, os botões levam ao Instagram.
+- WhatsApp configurado como (71) 98606-7207 em `src/config/site.ts` (pode ser trocado por `NEXT_PUBLIC_CLINIC_WHATSAPP`).
 - Texto real do benefício para participantes (`NEXT_PUBLIC_EVENT_BENEFIT`).
 - Logo oficial (hoje há uma marca tipográfica provisória em `src/components/brand/logo.tsx`) e fotos da clínica.
 - Depois do deploy, gerar o QR Code em `/admin/qrcode` com o domínio final (defina `NEXT_PUBLIC_SITE_URL` para já vir preenchido).

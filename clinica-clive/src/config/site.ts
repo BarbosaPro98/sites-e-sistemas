@@ -3,7 +3,8 @@
  * Itens marcados como PENDENTE precisam ser confirmados com a clínica
  * e configurados por variável de ambiente antes do evento.
  */
-const whatsappNumber = (process.env.NEXT_PUBLIC_CLINIC_WHATSAPP ?? "").replace(/\D/g, "");
+/** WhatsApp da clínica com DDI e DDD: (71) 98606-7207. Pode ser trocado por NEXT_PUBLIC_CLINIC_WHATSAPP. */
+const whatsappNumber = (process.env.NEXT_PUBLIC_CLINIC_WHATSAPP || "5571986067207").replace(/\D/g, "");
 
 export const site = {
   name: "Clínica Clive",
@@ -11,7 +12,6 @@ export const site = {
   leadSource: "Corrida AMB",
   instagramHandle: "@clinicaclive",
   instagramUrl: "https://www.instagram.com/clinicaclive/",
-  /** PENDENTE: número do WhatsApp da clínica, com DDI e DDD (ex.: 5511999999999). */
   whatsappNumber,
   whatsappMessage:
     "Olá! Fiz meu cadastro no stand da Clínica Clive na Corrida AMB e gostaria de agendar minha avaliação personalizada.",
