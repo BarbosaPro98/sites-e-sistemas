@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { Download, LogOut, Search, Users, CalendarDays, MessageCircleCheck, X } from "lucide-react";
-import { logout } from "../actions";
-import { Logo } from "@/components/brand/logo";
+import { Download, Search, Users, CalendarDays, MessageCircleCheck, X } from "lucide-react";
+import { AdminHeader } from "@/components/admin/admin-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,20 +39,7 @@ export default async function CrmPage({ searchParams }: { searchParams: SearchPa
 
   return (
     <div className="min-h-dvh bg-background">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <div className="flex items-center gap-3">
-            <Logo className="text-sm" />
-            <span className="hidden h-5 w-px bg-border sm:block" />
-            <span className="hidden text-sm font-semibold text-muted-foreground sm:block">CRM · Corrida AMB</span>
-          </div>
-          <form action={logout}>
-            <Button type="submit" variant="ghost" size="sm">
-              <LogOut aria-hidden="true" /> Sair
-            </Button>
-          </form>
-        </div>
-      </header>
+      <AdminHeader active="/admin/crm" />
 
       <main className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6 sm:py-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

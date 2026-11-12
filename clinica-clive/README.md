@@ -9,6 +9,7 @@ App Next.js (App Router + TypeScript + Tailwind + componentes no padrão shadcn/
 | `/` e `/cadastro` | Formulário mobile-first. Valida, salva no CRM com data/hora e origem `Corrida AMB`, mostra a confirmação e redireciona para `/clinica` em 2,5 s. |
 | `/clinica` | Landing page de conversão (hero, tecnologia, comunidade no Instagram, benefício do evento). |
 | `/admin/crm` | CRM protegido por senha: totais, busca, filtro por tratamento e exportação CSV. `/admin` redireciona para cá. |
+| `/admin/qrcode` | Gerador do QR Code do stand: URL editável (padrão `NEXT_PUBLIC_SITE_URL` ou o domínio atual), cores da clínica, nível H, prévia da placa de mesa e download em PNG 1024 × 1024 e SVG. |
 | `/admin/crm/export` | Download do CSV (respeita os filtros ativos; abre direto no Excel em português). |
 
 ## Onde está cada parte
@@ -39,4 +40,4 @@ Hospedagens serverless (como a Vercel) não guardam arquivos, então use um banc
 - Número do WhatsApp da clínica (`NEXT_PUBLIC_CLINIC_WHATSAPP`). Sem ele, os botões levam ao Instagram.
 - Texto real do benefício para participantes (`NEXT_PUBLIC_EVENT_BENEFIT`).
 - Logo oficial (hoje há uma marca tipográfica provisória em `src/components/brand/logo.tsx`) e fotos da clínica.
-- Gerar o QR Code apontando para o domínio final (`https://seu-dominio/`).
+- Depois do deploy, gerar o QR Code em `/admin/qrcode` com o domínio final (defina `NEXT_PUBLIC_SITE_URL` para já vir preenchido).
