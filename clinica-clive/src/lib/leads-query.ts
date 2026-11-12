@@ -1,9 +1,7 @@
 import "server-only";
-import { and, desc, like, or, sql, type SQL } from "drizzle-orm";
-import { db, ensureSchema } from "@/db";
-import { leads } from "@/db/schema";
 import { TRATAMENTO_LABEL } from "./lead-options";
 import { dayKey } from "./datetime";
+import { fetchLeads, type LeadRecord } from "./lead-store";
 
 export type LeadFilters = { tratamento?: string; q?: string };
 
@@ -19,30 +17,30 @@ export function normalizeFilters(params: Record<string, string | string[] | unde
   };
 }
 
-function whereFor({ tratamento, q }: LeadFilters) {
-  const conds: SQL[] = [];
-  if (tratamento) {
-    conds.push(sql`exists (select 1 from json_each(${leads.tratamentos}) where json_each.value = ${tratamento})`);
-  }
-  if (q) {
-    const digits = q.replace(/\D/g, "");
-    const byName = like(leads.nome, `%${q}%`);
-    conds.push(digits.length >= 3 ? (or(byName, like(leads.whatsapp, `%${digits}%`)) as SQL) : byName);
-  }
-  return conds.length ? and(...conds) : undefined;
+const fold = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+
+export function applyFilters(all: LeadRecord[], { tratamento, q }: LeadFilters) {
+  const term = q ? fold(q) : "";
+  const digits = q ? q.replace(/\D/g, "") : "";
+  return all.filter((l) => {
+    if (tratamento && !l.tratamentos.includes(tratamento)) return false;
+    if (term) {
+      const byName = fold(l.nome).includes(term);
+      const byPhone = digits.length >= 3 && l.whatsapp.includes(digits);
+      if (!byName && !byPhone) return false;
+    }
+    return true;
+  });
 }
 
 export async function listLeads(filters: LeadFilters) {
-  await ensureSchema();
-  return db.select().from(leads).where(whereFor(filters)).orderBy(desc(leads.createdAt));
+  return applyFilters(await fetchLeads(), filters);
 }
 
-/** Total geral e quantidade de interessados por tratamento (sem filtros). */
-export async function leadStats() {
-  await ensureSchema();
-  const all = await db.select({ tratamentos: leads.tratamentos, createdAt: leads.createdAt }).from(leads);
-  const porTratamento: Record<string, number> = {};
+/** Total geral, leads de hoje (fuso de São Paulo) e interessados por tratamento. */
+export function leadStats(all: LeadRecord[]) {
   const today = dayKey(new Date());
+  const porTratamento: Record<string, number> = {};
   let hoje = 0;
   for (const l of all) {
     for (const t of l.tratamentos) porTratamento[t] = (porTratamento[t] ?? 0) + 1;

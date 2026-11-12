@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { isValidSession, SESSION_COOKIE } from "@/lib/auth";
 import { AUTORIZACAO_LABEL, MEDICINA_LABEL, TRATAMENTO_LABEL, TRATAMENTOS } from "@/lib/lead-options";
-import { leadStats, listLeads, normalizeFilters } from "@/lib/leads-query";
+import { applyFilters, leadStats, normalizeFilters } from "@/lib/leads-query";
+import { fetchLeads } from "@/lib/lead-store";
 import { formatDateTime } from "@/lib/datetime";
 import { formatPhone } from "@/lib/phone";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,9 @@ export default async function CrmPage({ searchParams }: { searchParams: SearchPa
   if (!(await isValidSession(jar.get(SESSION_COOKIE)?.value))) redirect("/admin/login");
 
   const filters = normalizeFilters(await searchParams);
-  const [rows, stats] = await Promise.all([listLeads(filters), leadStats()]);
+  const all = await fetchLeads();
+  const rows = applyFilters(all, filters);
+  const stats = leadStats(all);
   const autorizados = rows.filter((r) => r.autorizaWhatsapp === "sim").length;
   const hasFilters = Boolean(filters.tratamento || filters.q);
 

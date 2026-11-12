@@ -23,10 +23,10 @@ export async function GET(req: NextRequest) {
   const filters = normalizeFilters(Object.fromEntries(req.nextUrl.searchParams));
   const rows = await listLeads(filters);
 
-  const header = ["ID", "Data/hora", "Nome", "WhatsApp", "Tratamentos", "Autoriza WhatsApp", "Interesse em Medicina", "Origem"];
-  const lines = rows.map((l) =>
+  const header = ["Nº", "Data/hora", "Nome", "WhatsApp", "Tratamentos", "Autoriza WhatsApp", "Interesse em Medicina", "Origem"];
+  const lines = rows.map((l, i) =>
     [
-      String(l.id),
+      String(rows.length - i),
       formatDateTime(l.createdAt),
       l.nome,
       formatPhone(l.whatsapp),

@@ -33,6 +33,10 @@ Os leads ficam em `data/leads.db` (SQLite).
 
 ## Produção
 
+Na Vercel, o jeito mais simples é conectar um **Blob store privado** ao projeto: com `BLOB_READ_WRITE_TOKEN` presente (e sem `DATABASE_URL`), os leads são gravados como arquivos JSON privados (`src/lib/lead-store.ts`). Não precisa de conta em outro serviço.
+
+Alternativa com SQL:
+
 Hospedagens serverless (como a Vercel) não guardam arquivos, então use um banco libSQL gerenciado (Turso, plano gratuito): crie o banco e defina `DATABASE_URL` (`libsql://...`) e `DATABASE_AUTH_TOKEN`. Defina também `ADMIN_PASSWORD`. Para trocar por Supabase/Postgres, basta portar `src/db/schema.ts` para `pg-core` e trocar o driver em `src/db/index.ts`.
 
 ## Pendências antes do evento
